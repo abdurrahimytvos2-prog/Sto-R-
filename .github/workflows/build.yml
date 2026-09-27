@@ -24,3 +24,4 @@ jobs:
         with:
           name: Sto-R-APK
           path: ./bin/*.apk
+          
