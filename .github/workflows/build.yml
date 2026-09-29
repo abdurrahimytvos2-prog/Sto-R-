@@ -10,24 +10,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python 3.10
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+          cache: 'pip'
 
-      - name: Install dependencies
+      - name: Install System Dependencies
         run: |
           sudo apt update
-          sudo apt install -y openjdk-17-jdk zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+          sudo apt install -y openjdk-17-jdk zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev automake
+
+      - name: Install Buildozer
+        run: |
           pip install --upgrade pip
           pip install buildozer cython==0.29.33 virtualenv
 
-      - name: Build APK
+      - name: Build with Buildozer
         run: |
-          buildozer android debug
+          yes | buildozer android debug
 
-      - name: Upload APK
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Sto-R-APK
-          path: ./bin/*.apk
+          name: Sto-R-APK-Super-Guclu
+          path: bin/*.apk
+          if-no-files-found: error
